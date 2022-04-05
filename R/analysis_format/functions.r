@@ -49,3 +49,16 @@ dmgene <- function(gene){
 
 dmgene('Tigit')
 
+
+dm_pseudotime_gene <- function(gene, color='time'){
+  meta <- obj.srt@meta.data
+  meta[,gene] <- obj.srt@assays$RNA@data[gene,] 
+  tmp <- data.frame(DC1 = eigenvectors(dm)[, 1],
+                    DC2 = eigenvectors(dm)[, 2])
+  meta <- cbind(meta,tmp)
+  meta %>% ggplot(aes(DC1, get(gene), color=get(color))) + 
+    geom_point(size=1, alpha=0.5) + theme_classic() +ylab(gene)
+}
+dm_pseudotime_gene('Cxcr5', color='time')
+
+
