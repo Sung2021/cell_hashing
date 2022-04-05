@@ -14,6 +14,22 @@ tsnegene <- function(gene, obj.srt=obj.srt){
 
 tsnegene('Runx1')
 
+umapgene <- function(gene){
+  meta <- obj.srt@meta.data
+  meta[,gene] <- obj.srt@assays$RNA@data[gene,] 
+  reduction <- obj.srt@reductions$umap@cell.embeddings %>% data.frame(check.names = F)
+  p <- reduction %>% ggplot(aes(UMAP_1, UMAP_2, color=meta[,gene])) + 
+    geom_point(size=0.1) + theme_classic()+ 
+    scale_color_gradient(low = '#FEF9E7',
+                         high='#A93226') +ggtitle(gene)
+  print(p)
+}
+
+p1 <- umapgene('Aff3')
+p2 <- umapgene('Il21')
+p3 <- umapgene('Il4')
+cowplot::plot_grid(p1,p2,p3,ncol=1)
+
 
 ## color gene manually in diffusion map
 # dm : diffusion map object 
