@@ -82,8 +82,10 @@ umap_groups <- function(groups){
   meta$select <- factor(meta$select)
   p <- reduction %>% ggplot(aes(UMAP_1, UMAP_2, color=meta$select)) + 
     geom_point(size=0.1) + theme_classic() +scale_color_manual(values = c('#EBEDEF',
-                                                                          '#EC7063'))
+                                                                          '#EC7063')) +
+    theme(legend.position = "None")
   print(p)
 }
 
 umap_groups(mature_Tfh)
+umap_groups(Tfh_mp2)
