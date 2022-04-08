@@ -89,3 +89,16 @@ umap_groups <- function(groups){
 
 umap_groups(mature_Tfh)
 umap_groups(Tfh_mp2)
+
+
+umap_factor <- function(group){
+  meta <- obj.srt@meta.data
+  reduction <- obj.srt@reductions$umap@cell.embeddings %>% data.frame(check.names = F)
+  meta$select <- 'NA'
+  meta[meta$hhx_cluster %in% c(3,6),]$select <- 'selected'
+  p <- reduction %>% ggplot(aes(UMAP_1, UMAP_2, color=meta[,]$select)) + 
+    geom_point(size=0.1) + theme_classic()+ 
+   ggtitle(group)
+  print(p)
+}
+umap_factor('time')
