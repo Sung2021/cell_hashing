@@ -102,3 +102,34 @@ umap_factor <- function(group){
   print(p)
 }
 umap_factor('time')
+
+
+## gene expression line plot by group
+gene_hhx_cluster_time <- function(gene){
+  meta <- obj.srt@meta.data
+  meta[,gene] <- obj.srt@assays$RNA@data[gene,] 
+  df <- meta %>%
+    group_by(hhx_cluster_name, time) %>%
+    summarize(mean_size = mean(get(gene), na.rm = TRUE),
+              sd= sd(get(gene)))
+  df %>% ggplot(aes(x=time, y=mean_size, group=hhx_cluster_name, 
+                    color=hhx_cluster_name)) + 
+    geom_line() + geom_point() + RotatedAxis() +ylab(gene) +
+    geom_errorbar(aes(ymin=mean_size-sd, ymax=mean_size+sd), width=.1) + facet_wrap(.~hhx_cluster_name)
+}
+
+gene_hhx_cluster_time('Jmjd1c') # Kdm6a
+gene_hhx_cluster_time('Kdm6a')
+
+
+genes <- c('Tox','Aff3','Runx1','Cd226','Cxcr5','Tigit','Bcl6','Nr4a1','Egr1','Icos','Pdcd1','Ctla4','Bach2','Ikzf2')
+genes <- c('Tox','Aff3','Runx1','Bach2')
+genes <- c('Jarid2','Tmtc2','Hells','Cdk1')
+genes <- c('Ccne2','Cdk2')
+genes <- c('Sesn3','Depdc5')
+genes <- c('Jmjd1c','Kdm6a')
+genes <- c('Nsd2','Hdac7','Ezh2')
+genes <- c('Nr3c1','Nr4a1','Nr4a2','Nr4a3')
+genes <- c('Fkbp5','Tsc22d2','Tsc22d3')
+cowplot::plot_grid(plotlist=lapply(genes,gene_hhx_cluster_time),ncol = 2)
+
