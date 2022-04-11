@@ -35,3 +35,13 @@ test.cor[genes.row, genes] %>% write.csv('~/Desktop/correlation.tmp.csv')
 test.cor %>% select(Tox) %>% top_n(100)
 test.cor %>% select(Tox) %>% ggplot(aes(Tox)) + geom_density()
 
+
+## 3. correaltion 
+test.cor <- read.csv('2022.cell_hashing/imm_timecourse/correlation.variable_features.22.04.11.csv', row.names = 1)
+test.cor[1:3,1:3]
+
+genes <- c('Tox','Aff3','Runx1','Cd226','Cxcr5','Tigit','Bcl6','Nr4a1','Egr1','Icos','Pdcd1','Ctla4','Bach2','Ikzf2')
+test.cor[genes,genes] %>% pheatmap::pheatmap(cluster_rows = T, cluster_cols = T, display_numbers = T)
+test.cor[genes,genes] %>% pheatmap::pheatmap(cluster_rows = T, cluster_cols = T, 
+                                             color = colorRampPalette(colors = c("#F8F9F9","#CB4335"))(100),
+                                             display_numbers = T)
