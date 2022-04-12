@@ -133,3 +133,24 @@ genes <- c('Nr3c1','Nr4a1','Nr4a2','Nr4a3')
 genes <- c('Fkbp5','Tsc22d2','Tsc22d3')
 cowplot::plot_grid(plotlist=lapply(genes,gene_hhx_cluster_time),ncol = 2)
 
+
+### reductions plot manually
+### color palette for samples
+my_colors <- c("#D2B4DE","#A9CCE3", "#2E86C1", "#F1C40F", "#D35400") # Create vector of colors
+names(my_colors) <- levels(obj.srt@meta.data$time) # Extract all levels of both data
+
+obj.srt@meta.data %>% ggplot(aes(RNA_snn_res.1, fill=time)) + 
+  geom_bar() + scale_fill_manual(values = my_colors) + theme_classic()
+
+obj.srt@meta.data %>% ggplot(aes(time, fill=time)) + 
+  geom_bar() + scale_fill_manual(values = my_colors) + theme_classic() +RotatedAxis()
+
+reduction <- obj.srt@reductions$umap@cell.embeddings %>% data.frame(check.names = F)
+reduction %>% colnames()
+meta <- obj.srt@meta.data
+reduction %>% ggplot(aes(UMAP_1, UMAP_2, color=meta$time)) + 
+  geom_point(size=0.1) + theme_classic()+ scale_color_manual(values = my_colors)
+
+reduction %>% ggplot(aes(UMAP_1, UMAP_2, color=meta$time)) + 
+  geom_point(size=0.1) + theme_classic()+ scale_color_manual(values = my_colors)
+
