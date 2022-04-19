@@ -66,4 +66,17 @@ df2 <- (df/colsum)*100
 df2 %>% pheatmap::pheatmap(cluster_rows = F, cluster_cols = F, 
                            color = colorRampPalette(colors = c("#EBF5FB","#2874A6"))(100))
 
+## cells from each sample distribution-pheatmap
+meta <- obj.srt@meta.data
+df <- table(meta$tag, meta$RNA_snn_res.0.5)
+df <- as.data.frame.matrix(df)
+colsum <- colSums(df)
+colsum <- replicate(nrow(df), colsum) %>% t()
+df2 <- (df/colsum)*100
+# my.colors <- c(colorRampPalette(colors = c("white","orange"))(20), colorRampPalette(colors = c("orange","red"))(30))
+df2 %>% pheatmap::pheatmap(cluster_rows = F, cluster_cols = F, 
+                           color = colorRampPalette(colors = c("#EBF5FB","#2874A6"))(100))
+df2 %>% pheatmap::pheatmap(cluster_rows = F, cluster_cols = F, 
+                           color = colorRampPalette(colors = c("#EBF5FB","#2874A6"))(100),
+                           display_numbers = T)
 
