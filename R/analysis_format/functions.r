@@ -167,3 +167,6 @@ gene_violin <- function(gene, category='RNA_snn_res.0.5', sample='tag'){
   print(p)
 }
 gene_violin('Cd226')
+genes <- c('Cxcr5','Tigit','Cd226', 'Runx1')
+cowplot::plot_grid(plotlist = lapply(genes, gene_violin), 
+                   ncol = 1)
