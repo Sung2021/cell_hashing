@@ -160,9 +160,10 @@ reduction %>% ggplot(aes(UMAP_1, UMAP_2, color=meta$time)) +
 gene_violin <- function(gene, category='RNA_snn_res.0.5', sample='tag'){
   meta <- obj.srt@meta.data
   meta[,gene] <- obj.srt@assays$RNA@data[gene,] 
-  p <- meta %>% ggplot(aes(get(category), get(gene), color=get(sample))) +
-    geom_violin() + theme_classic() +
-    xlab(category) + ylab(gene) +RotatedAxis()
+  p <- meta %>% ggplot(aes(get(category), get(gene), fill=get(sample))) +
+    geom_violin(scale = 'width') + theme_classic() +
+    xlab(category) + ylab(gene) +RotatedAxis() +
+    scale_fill_manual(values = c("#F0E442", "#0072B2", "#D55E00", "#CC79A7"))
   print(p)
 }
-gene_violin('Tigit')
+gene_violin('Cd226')
