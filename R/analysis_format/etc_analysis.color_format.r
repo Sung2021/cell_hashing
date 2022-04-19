@@ -80,3 +80,12 @@ df2 %>% pheatmap::pheatmap(cluster_rows = F, cluster_cols = F,
                            color = colorRampPalette(colors = c("#EBF5FB","#2874A6"))(100),
                            display_numbers = T)
 
+## cells from each sample distribution-barplot
+meta <- obj.srt@meta.data
+meta %>% ggplot(aes(RNA_snn_res.0.5, fill=tag)) + 
+  geom_bar()  + theme_classic() + 
+  scale_fill_manual(values = c("#F0E442", "#0072B2", "#D55E00", "#CC79A7"))
+
+meta %>% ggplot(aes(time_cluster, fill=time)) + 
+  geom_bar(position = 'fill') + scale_fill_manual(values = my_colors) + 
+  theme_classic() +coord_flip() +scale_x_discrete(limits = rev(levels(meta$time_cluster)))
