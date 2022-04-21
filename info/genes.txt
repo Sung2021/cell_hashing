@@ -1,0 +1,11 @@
+## Tfh differentiation
+Bcl6, TF
+Maf,TF
+Batf,TF
+Ascl2,TF
+Icos, surface marker
+Sh2d1a, encode SLAM associated protein, germinal center development
+Pdcd1, receptor
+Il6ra, receptor
+
+
