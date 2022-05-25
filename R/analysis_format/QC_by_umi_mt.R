@@ -47,3 +47,38 @@ meta %>% filter(!(sample %in% c('ARM_d5','ARM_d30'))) %>%
 meta %>% filter(!(sample %in% c('ARM_d5','ARM_d30'))) %>% 
   filter(percent.mt <=mt.filter) %>% filter(nCount_RNA >= read.filter) %>% 
   select(sample) %>% table()
+
+## color cells with the expression of target genes
+## (nCount_RNA,percent.mt)
+gene <- 'Tox'
+mt.filter <- 5
+read.filter <- 1000
+meta <- obj.srt@meta.data %>% filter(!(sample %in% c('ARM_d5','ARM_d30'))) %>% 
+  filter(percent.mt <= mt.filter) %>% filter(nCount_RNA >= read.filter)
+gene.exp <- obj.srt@assays$RNA@data[gene,rownames(meta)]
+meta %>% ggplot(aes(nCount_RNA,percent.mt,
+             color=gene.exp)) + geom_point(size=0.1,alpha=0.5) + 
+  facet_wrap(.~sample, nrow = 1) + 
+  geom_hline(yintercept = c(mt.filter),color='red') +
+  geom_vline(xintercept = c(read.filter),color='red') + 
+  ylim(c(-1,10)) + xlim(c(0,60000)) +theme_bw() + scale_color_viridis_b() +
+  ggtitle(gene) +
+  RotatedAxis()
+
+## color cells with the expression of target genes
+## (feature,percent.mt)
+gene <- 'Tox'
+mt.filter <- 5
+read.filter <- 1000
+meta <- obj.srt@meta.data %>% filter(!(sample %in% c('ARM_d5','ARM_d30'))) %>% 
+  filter(percent.mt <= mt.filter) %>% filter(nCount_RNA >= read.filter)
+gene.exp <- obj.srt@assays$RNA@data[gene,rownames(meta)]
+meta %>% ggplot(aes(nFeature_RNA,percent.mt,
+                    color=gene.exp)) + geom_point(size=0.1,alpha=0.5) + 
+  facet_wrap(.~sample, nrow = 1) + 
+  geom_hline(yintercept = c(mt.filter),color='red') +
+  geom_vline(xintercept = c(read.filter),color='red') + 
+  ylim(c(-1,10)) + xlim(c(0,10000)) +theme_bw() + scale_color_viridis_b() +
+  ggtitle(gene) +
+  RotatedAxis()
+
