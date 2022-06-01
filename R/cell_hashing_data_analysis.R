@@ -40,7 +40,8 @@ boxplot(obj.srt@meta.data$nCount_RNA)
 
 # Create the knee plot 
 # Convert to dgCMatrix, which is a compressed, sparse matrix format
-mat<- as(t(obj.srt@assays$RNA@counts), "dgCMatrix")
+# mat<- as(t(obj.srt@assays$RNA@counts), "dgCMatrix")
+mat <- t(as.matrix(obj.srt@assays$RNA@counts))
 tot_counts <- rowSums(mat)  ### UMI per cell
 Rank <- rank(-tot_counts)
 df <- cbind(tot_counts, Rank)
