@@ -1,3 +1,6 @@
+## gray : '#F2F3F4'
+## red : "#CB4335"
+
 
 ## 5 sets including naive
 my_colors <- c("#D2B4DE","#A9CCE3", "#2E86C1", "#F1C40F", "#D35400") # Create vector of colors
