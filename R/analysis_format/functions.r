@@ -1,4 +1,22 @@
 ### functions
+## color only one group/cluster in the projection
+meta <- obj.srt@meta.data
+reduction <- obj.srt@reductions$tsne@cell.embeddings %>% data.frame(check.names = F)
+meta <- cbind(meta, reduction)
+meta[1:3,]
+levels(meta$sample) %>% length()
+fig <- list()
+for(i in 1:9){
+  cond <- levels(meta$sample)
+  meta$color <- 'NA'
+  cells <- meta %>% filter(sample == cond[i]) %>% rownames()
+  meta[cells,]$color <- 'red'
+  fig[[i]] <- meta %>% ggplot(aes(tSNE_1, tSNE_2, color=color)) + 
+    geom_point(size=0.1, alpha=0.5) + theme_classic() +
+    scale_color_manual(values = c('#F2F3F4','#CB4335')) +
+    theme(legend.position='none') +ggtitle(levels(meta$sample)[i])
+}
+cowplot::plot_grid(plotlist = fig,ncol = 3)
 
 ## color gene manually in tSNE 
 tsnegene <- function(gene, obj.srt=obj.srt){
