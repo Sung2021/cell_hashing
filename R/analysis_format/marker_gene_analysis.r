@@ -49,3 +49,22 @@ markers %>% ggplot(aes(avg_log2FC, -log10(p_val_adj), label=gene)) +
   geom_point(size=1, alpha=0.1) + geom_hline(yintercept = -log10(0.05), color='red') +
   theme_classic() + geom_text(vjust = 0.5, nudge_y = -0.5) + geom_vline(xintercept = c(-log2(1.5),log2(1.5)), color='red')
 
+
+
+### find markers between two sets
+Idents(obj.srt) <- 'cell_type'
+markers <- FindMarkers(obj.srt, ident.1 = 'Tem', ident.2 = 'Tcm' ,min.pct = 0.25, only.pos = FALSE)
+markers %>% dim()
+markers %>% filter(avg_log2FC > 0) %>% head()
+
+markers %>% ggplot(aes(avg_log2FC, -log10(p_val_adj))) + 
+  geom_point(size=1, alpha=0.5) + geom_hline(yintercept = -log10(0.05), color='red') +
+  geom_vline(xintercept = c(-log2(1.5),log2(1.5)), color='red') +
+  xlim(c(-2,2)) +
+  theme_classic()
+
+genes <- c((markers %>% filter(avg_log2FC > 0) %>% top_n(20, avg_log2FC) %>% rownames()),
+           (markers %>% filter(avg_log2FC < 0) %>% top_n(-40, avg_log2FC) %>% rownames()))
+DoHeatmap(obj.srt, features = genes, group.by = 'cell_type') + viridis::scale_fill_viridis() + 
+  theme(axis.text.y = element_text(size = 7))
+
