@@ -1,3 +1,13 @@
+## normalized gene by group
+meta = obj.srt@meta.data
+normalized_gene <- function(gene){
+  df <- cbind(meta, gene = obj.srt@assays$RNA@data[gene,])
+  df %>% ggplot(aes(sample, gene, fill=mut)) + geom_col() + 
+    ylab(paste0(gene, '_normalized count')) %>% print()
+}
+
+
+
 ### functions
 ## color only one group/cluster in the projection
 meta <- obj.srt@meta.data
