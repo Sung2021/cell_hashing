@@ -6,7 +6,14 @@ normalized_gene <- function(gene){
     ylab(paste0(gene, '_normalized count')) %>% print()
 }
 
+normalized_gene <- function(gene){
+  df <- cbind(meta, gene = obj.srt@assays$RNA@data[gene,])
+  df %>% ggplot(aes(sample, gene, fill=mut)) + geom_boxplot() + 
+    ylab(paste0(gene, '_normalized count')) %>% print()
+}
 
+
+#####################################################################
 
 ### functions
 ## color only one group/cluster in the projection
