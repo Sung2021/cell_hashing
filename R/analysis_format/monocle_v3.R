@@ -44,6 +44,15 @@ plot_cells(cds, color_cells_by = 'pseudotime',
            graph_label_size = 0, show_trajectory_graph = T,
            cell_size = 0.8)
 
+
+cds = readRDS('2022.Qiang.Tle3.scRNA/no.trimming.wt_only.1000.2.5.2022.06.15_cds.rds')
+
+plot_cells(cds, color_cells_by = 'pseudotime',
+           graph_label_size = 0, show_trajectory_graph = T,
+           cell_size = 0.8, trajectory_graph_color = 'light green', 
+           trajectory_graph_segment_size = 2, label_branch_points = F,
+           label_roots = F, label_leaves = F)
+
 cds %>% saveRDS('2022.Qiang.Tle3.scRNA/no.trimming.wt_only.1000.2.5.2022.06.15_cds.rds')
 
 
